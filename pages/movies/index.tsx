@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { Autocomplete, Box, Card, Stack, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { useEffect, useState } from 'react'
 
@@ -23,6 +24,7 @@ type MovieProps = {
 }
 
 const MoviesList = () => {
+  const router = useRouter()
   const [data, setData] = useState<MovieProps[]>()
   useEffect(() => {
     axios
@@ -51,21 +53,52 @@ const MoviesList = () => {
   return (
     <Stack>
       <Autocomplete
-        sx={{ color: 'white' }}
-        freeSolo
-        id="free-solo-2-demo"
-        disableClearable
-        options={data.map((movie) => movie.title)}
-        // renderOption={renderOption}
-        // getOptionLabel={(option) => option.toString()}
+        options={data}
+        getOptionLabel={(option) => (typeof option === 'string' ? option : option.title)}
+        renderOption={(props, option) => {
+          return (
+            <Link href={`/movies/${option.id}`}>
+              <Box
+                component="li"
+                sx={{
+                  background: '#151d2e',
+                  color: 'white',
+                  textDecoration: 'none',
+
+                  '& > img': {
+                    mr: 2,
+                    flexShrink: 0,
+                  },
+                }}
+                {...props}
+              >
+                <Box
+                  sx={{
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <img
+                    loading="lazy"
+                    width="50"
+                    alt={option.title}
+                    src={`https://image.tmdb.org/t/p/w500${option.poster_path}`}
+                  />
+                  <Typography fontSize={16}>{option.title}</Typography>
+                </Box>
+              </Box>
+            </Link>
+          )
+        }}
         renderInput={(params) => (
           <TextField
-            sx={{ color: 'white' }}
             {...params}
-            label="hmmm?"
+            label="Search movie"
             InputProps={{
               ...params.InputProps,
               type: 'search',
+              style: { color: 'white' },
             }}
           />
         )}
@@ -84,16 +117,6 @@ const MoviesList = () => {
         ))}
       </Stack>
     </Stack>
-  )
-}
-
-const renderOption = (option: any, { selected }: any) => {
-  return (
-    <Box display="flex" alignItems="center">
-      <Link href={`/movies/${option.id}`}>
-        <Typography variant="body1">{option.title}</Typography>
-      </Link>
-    </Box>
   )
 }
 
