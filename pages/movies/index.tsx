@@ -32,9 +32,19 @@ const MoviesList = () => {
       .then((response) => {
         setData(response.data.results)
       })
+      .catch((error) => {
+        console.log(error)
+      })
   }, [])
 
-  if (!data) return null
+  if (!data)
+    return (
+      <Stack>
+        <Typography variant="h2" color={'white'}>
+          Could not find any movies :(
+        </Typography>
+      </Stack>
+    )
 
   console.log(data)
 
