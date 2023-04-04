@@ -1,4 +1,4 @@
-import { Stack, styled, Typography } from '@mui/material'
+import { Card, Stack, styled, Typography } from '@mui/material'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -45,7 +45,6 @@ const MovieInfoPage = () => {
 
 export default MovieInfoPage
 
-const Wrapper = styled(Stack)`
-  background-color: #fbfbf1;
+const Wrapper = styled(Card)`
   height: 500px;
 `

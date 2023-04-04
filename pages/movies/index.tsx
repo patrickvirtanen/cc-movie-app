@@ -42,9 +42,7 @@ const MoviesList = () => {
   if (!data)
     return (
       <Stack>
-        <Typography variant="h2" color={'white'}>
-          Could not find any movies :(
-        </Typography>
+        <Typography variant="h2">Could not find any movies :(</Typography>
       </Stack>
     )
 
@@ -57,11 +55,10 @@ const MoviesList = () => {
         getOptionLabel={(option) => (typeof option === 'string' ? option : option.title)}
         renderOption={(props, option) => {
           return (
-            <Link href={`/movies/${option.id}`}>
+            <Link href={`/movies/${option.id}`} style={{ textDecoration: 'none' }}>
               <Box
                 component="li"
                 sx={{
-                  background: '#151d2e',
                   color: 'white',
                   textDecoration: 'none',
 
@@ -85,7 +82,9 @@ const MoviesList = () => {
                     alt={option.title}
                     src={`https://image.tmdb.org/t/p/w500${option.poster_path}`}
                   />
-                  <Typography fontSize={16}>{option.title}</Typography>
+                  <Typography fontSize={16} ml={2}>
+                    {option.title}
+                  </Typography>
                 </Box>
               </Box>
             </Link>
@@ -98,15 +97,18 @@ const MoviesList = () => {
             InputProps={{
               ...params.InputProps,
               type: 'search',
-              style: { color: 'white' },
             }}
           />
         )}
       />
       <Stack gap={4} direction={'row'} flexWrap={'wrap'}>
         {data?.map((d) => (
-          <Link href={`/movies/${d.id}`} key={d.id} style={{ textDecoration: 'none' }}>
-            <StyledCard>
+          <Link
+            href={`/movies/${d.id}`}
+            key={d.id}
+            style={{ textDecoration: 'none', color: 'white' }}
+          >
+            <StyledCard sx={{ color: 'white' }}>
               <StyledMovieCard backdrop_path={d.backdrop_path} />
 
               <Typography fontSize={16} sx={{ mt: 2 }}>
@@ -125,8 +127,7 @@ const StyledCard = styled(Card)`
   width: 350px;
   display: flex;
   flex-direction: column;
-  background-color: #10141f;
-  color: white;
+
   font-weight: bold;
   text-decoration: none;
   box-shadow: none;
